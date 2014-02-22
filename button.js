@@ -1,4 +1,4 @@
-var speeds = [200, 175, 150, 125, 100, 90, 80, 70];
+var speeds = [300, 275, 250, 225, 200, 175, 150, 125, 100, 90, 80, 70];
 
 // Connect to the channel
 var youtube = chrome.runtime.connect({name: "udacity" + Math.random()});
