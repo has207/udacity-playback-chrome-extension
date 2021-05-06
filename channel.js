@@ -3,8 +3,8 @@
  * Shuffle messages between udacity and youtube content scripts
  * and intercepts YouTube embed request headers to force HTML5 playback
  */
-var udacity_ports = [];
-var youtube_ports = [];
+const udacity_ports = [];
+const youtube_ports = [];
 
 // Update the YouTube PREF cookie to request HTML5 version of the embed
 // I've tried passing in html5=1 URL param but if the PREF cookie is
@@ -12,16 +12,16 @@ var youtube_ports = [];
 // This approach seems to more reliable..
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details){
-    var header;
-    for (var i = 0; i < details.requestHeaders.length; i++) {
+    let header;
+    for (let i = 0; i < details.requestHeaders.length; i++) {
       header = details.requestHeaders[i];
       if (header.name === 'Cookie' && header.value.match(/PREF=/)) {
-        var pref = 'PREF=';
-        var prefRE = new RegExp(pref + '[^;]*')
-        var vals = header.value.match(prefRE)[0].slice(pref.length).match(/[^&]+/g);
+        const pref = 'PREF=';
+        const prefRE = new RegExp(pref + '[^;]*');
+        const vals = header.value.match(prefRE)[0].slice(pref.length).match(/[^&]+/g);
         if (vals && vals.length) {
-          var nvals = [];
-          for (var i = 0; i < vals.length; i++) {
+          const nvals = [];
+          for (i = 0; i < vals.length; i++) {
             if (i && vals[i-1].match(/^f1=/)) {
               nvals.push('f2=40000000')
             }
@@ -39,8 +39,8 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   ["blocking", "requestHeaders"]
 );
 
-var handleConnection = function(port, from, to) {
-  var idx = from.length;
+const handleConnection = function(port, from, to) {
+  const idx = from.length;
   from[idx] = port;
   port.onMessage.addListener(function(msg) {
     if (to.length > idx) {
